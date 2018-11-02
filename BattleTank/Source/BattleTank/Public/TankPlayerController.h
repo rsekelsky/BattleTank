@@ -20,10 +20,8 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 private:
 	virtual void BeginPlay() override;
 	
-public:
 	virtual void Tick(float DeltaTime) override;
 
-private:
 	ATank* GetControlledTank() const;
 
 	// Get world location of linetrace through crosshair
