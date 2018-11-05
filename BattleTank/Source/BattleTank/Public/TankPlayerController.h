@@ -39,13 +39,13 @@ private:
 
 	// Crosshair X location on screen
 	UPROPERTY(EditAnywhere)
-	float CrosshairXLocation = 0.5f;
+	float CrosshairXLocation = 0.5;
 
 	// Crosshair Y location on screen
 	UPROPERTY(EditAnywhere)
-	float CrosshairYLocation = 0.33333f;
+	float CrosshairYLocation = 0.33333;
 
 	// Linetrace range (max hit range)
 	UPROPERTY(EditAnywhere)
-	float LineTraceRange = 1000000.f;
+	float LineTraceRange = 1000000;
 };
