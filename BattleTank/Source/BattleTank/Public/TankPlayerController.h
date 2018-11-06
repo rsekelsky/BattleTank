@@ -33,8 +33,7 @@ private:
 	// Returns an out parameter for hit location, true if hits landscape
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 
-	// Start the tank moving the barrel so that a shot would hit
-	// where the crosshair intersects the world
+	// Start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
 	void AimTowardsCrosshair();
 
 	// Crosshair X location on screen
