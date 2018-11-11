@@ -30,3 +30,8 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	RightTrack->SetThrottle(-Throw);
 	// TODO prevent double speed from direct throttles (left/right arrowkeys)
 }
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s requests move with vector %s"), *GetOwner()->GetName(), *MoveVelocity.ToString());
+}
