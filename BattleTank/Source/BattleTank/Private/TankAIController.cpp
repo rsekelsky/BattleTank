@@ -4,6 +4,7 @@
 #include "Public/Tank.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
+// Depends on TankMovementComponent through overridden MoveToActor method
 
 void ATankAIController::BeginPlay()
 {
@@ -13,7 +14,7 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (GetPlayerTank())
+	if (ensure(GetPlayerTank()))
 	{
 		// Move towards the player
 		MoveToActor(GetPlayerTank(), AcceptanceRadius);

@@ -1,13 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Rourke Sekelsky.
 
 #include "Public/TankPlayerController.h"
 #include "Public/Tank.h"
+#include "Public/TankAimingComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent))
+	{
+		return;
+	}
+	FoundAimingComponent(AimingComponent);
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -72,7 +80,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank())
+	if (!ensure(GetControlledTank()))
 	{
 		return;
 	}
