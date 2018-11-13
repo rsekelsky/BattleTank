@@ -28,6 +28,9 @@ public:
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
+	FVector GetProjectileSocketLocation();
+	FRotator GetProjectileSocketRotation();
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Locked;

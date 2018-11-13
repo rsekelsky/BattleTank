@@ -7,7 +7,6 @@
 #include "Tank.generated.h"
 
 class UTankAimingComponent;
-class UTankBarrel;
 class AProjectile;
 
 UCLASS()
@@ -28,6 +27,8 @@ protected:
 private:
 	ATank();
 
+	virtual void BeginPlay() override;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
@@ -38,7 +39,4 @@ private:
 	float ReloadTimeInSeconds = 4;
 
 	double LastFireTime = 0;
-
-	// Local barrel reference for spawning projectile
-	UTankBarrel* Barrel = nullptr;
 };

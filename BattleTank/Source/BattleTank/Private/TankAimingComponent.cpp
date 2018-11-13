@@ -63,3 +63,13 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Barrel->Elevate(DeltaRotator.Pitch);
 	Turret->Rotate(DeltaRotator.Yaw);
 }
+
+FVector UTankAimingComponent::GetProjectileSocketLocation()
+{
+	return Barrel->GetSocketLocation(FName("Projectile"));
+}
+
+FRotator UTankAimingComponent::GetProjectileSocketRotation()
+{
+	return Barrel->GetSocketRotation(FName("Projectile"));
+}
