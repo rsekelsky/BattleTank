@@ -8,13 +8,25 @@
 ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame. You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+
+	// Allow first fire after initial reload
+	LastFireTime = FPlatformTime::Seconds();
+}
+
+void ATank::TickActor(float DeltaTime, enum ELevelTick TickType, FActorTickFunction& ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+	}
+	// TODO Handle aiming/locked states
 }
 
 void ATank::AimAt(FVector HitLocation)
@@ -28,14 +40,13 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
-	if (!ensure(TankAimingComponent))
+	if (FiringState != EFiringState::Reloading)
 	{
-		return;
-	}
+		if (!ensure(TankAimingComponent && ProjectileBlueprint))
+		{
+			return;
+		}
 
-	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (bIsReloaded)
-	{
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
 			TankAimingComponent->GetProjectileSocketLocation(),

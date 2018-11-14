@@ -8,7 +8,7 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	if (!ensure(GetControlledTank()))
 	{
 		return;

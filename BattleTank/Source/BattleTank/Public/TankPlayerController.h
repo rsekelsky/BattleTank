@@ -9,7 +9,7 @@
 class ATank;
 
 /**
- * Responsible for helping the player aim.
+ * Responsible for aiming the tank turret and barrel.
  */
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -20,6 +20,8 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
 
+	// TODO Determine if we can remove this function somehow
+	// Blueprint event to set tank reference for player UI
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundTank(ATank* Tank);
 
