@@ -2,7 +2,6 @@
 
 #include "Public/TankPlayerController.h"
 #include "Public/Tank.h"
-#include "Public/TankAimingComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 
@@ -10,12 +9,11 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (!ensure(AimingComponent))
+	if (!ensure(GetControlledTank()))
 	{
 		return;
 	}
-	FoundAimingComponent(AimingComponent);
+	FoundTank(GetControlledTank());
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -74,6 +72,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 		HitLocation = HitResult.Location;
 		return true;
 	}
+	
 	HitLocation = FVector(0);
 	return false; // Line trace failed
 }

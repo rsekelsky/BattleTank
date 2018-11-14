@@ -66,10 +66,18 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 FVector UTankAimingComponent::GetProjectileSocketLocation()
 {
+	if (!ensure(Barrel))
+	{
+		return FVector(0);
+	}
 	return Barrel->GetSocketLocation(FName("Projectile"));
 }
 
 FRotator UTankAimingComponent::GetProjectileSocketRotation()
 {
+	if (!ensure(Barrel))
+	{
+		return FRotator(0);
+	}
 	return Barrel->GetSocketRotation(FName("Projectile"));
 }

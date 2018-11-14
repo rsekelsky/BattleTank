@@ -6,14 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
-UENUM()
-enum class EFiringState : uint8 
-{ 
-	Reloading, 
-	Aiming, 
-	Locked
-};
-
 class UTankBarrel;
 class UTankTurret;
 
@@ -30,10 +22,6 @@ public:
 
 	FVector GetProjectileSocketLocation();
 	FRotator GetProjectileSocketRotation();
-
-protected:
-	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Locked;
 
 private:
 	UTankAimingComponent();

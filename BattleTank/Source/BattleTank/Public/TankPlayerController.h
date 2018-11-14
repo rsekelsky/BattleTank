@@ -6,9 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-// Forward declaration
 class ATank;
-class UTankAimingComponent;
 
 /**
  * Responsible for helping the player aim.
@@ -23,7 +21,7 @@ protected:
 	ATank* GetControlledTank() const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
-	void FoundAimingComponent(UTankAimingComponent* AimingComponentReference);
+	void FoundTank(ATank* Tank);
 
 private:
 	virtual void BeginPlay() override;

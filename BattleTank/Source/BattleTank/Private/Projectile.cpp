@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Rourke Sekelsky.
 
 #include "Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"

@@ -6,6 +6,14 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+UENUM()
+enum class EFiringState : uint8
+{
+	Reloading,
+	Aiming,
+	Locked,
+};
+
 class UTankAimingComponent;
 class AProjectile;
 
@@ -23,6 +31,9 @@ public:
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringState FiringState = EFiringState::Locked;
 
 private:
 	ATank();

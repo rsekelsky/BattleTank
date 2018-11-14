@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Rourke Sekelsky.
 
 #pragma once
 
@@ -6,7 +6,6 @@
 #include "CoreMinimal.h"
 #include "TankAIController.generated.h"
 
-// Forward declaration
 class ATank;
 
 /**
