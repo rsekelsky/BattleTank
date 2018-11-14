@@ -40,7 +40,7 @@ private:
 
 	virtual void BeginPlay() override;
 
-	virtual void TickActor(float DeltaTime, enum ELevelTick TickType, FActorTickFunction& ThisTickFunction) override;
+	virtual void Tick(float DeltaTime) override;
 
 	EFiringState DetermineFiringState();
 

@@ -19,7 +19,21 @@ public:
 	void SetThrottle(float Throttle);
 	
 private:
+	UTankTrack();
+
+	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+	void DriveTrack();
+
+	// To stop tanks from slipping
+	void ApplySidewaysForce();
+
 	// Max force per track in Newtons
 	UPROPERTY(EditDefaultsOnly)
-	float TrackMaxDrivingForce = 200000; // Assume 40 tonne tank, and 0.5g acceleration
+	float TrackMaxDrivingForce = 200000; // Assume 40 tonne tank, 0.5g acceleration
+
+	float CurrentThrottle = 0;
 };

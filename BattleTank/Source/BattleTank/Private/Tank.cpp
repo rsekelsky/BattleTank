@@ -20,8 +20,9 @@ void ATank::BeginPlay()
 	LastFireTime = FPlatformTime::Seconds();
 }
 
-void ATank::TickActor(float DeltaTime, enum ELevelTick TickType, FActorTickFunction& ThisTickFunction)
+void ATank::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
 	FiringState = DetermineFiringState();
 }
 

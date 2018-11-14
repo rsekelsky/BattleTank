@@ -6,7 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
 
-// Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
