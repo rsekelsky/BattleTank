@@ -22,11 +22,7 @@ void ATank::BeginPlay()
 
 void ATank::TickActor(float DeltaTime, enum ELevelTick TickType, FActorTickFunction& ThisTickFunction)
 {
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
-	{
-		FiringState = EFiringState::Reloading;
-	}
-	// TODO Handle aiming/locked states
+	FiringState = DetermineFiringState();
 }
 
 void ATank::AimAt(FVector HitLocation)
@@ -55,5 +51,25 @@ void ATank::Fire()
 
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+	}
+}
+
+EFiringState ATank::DetermineFiringState()
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		return EFiringState::Reloading;
+	}
+	else if (!ensure(TankAimingComponent))
+	{
+		return EFiringState::Reloading;
+	}
+	else if (TankAimingComponent->IsBarrelMoving())
+	{
+		return EFiringState::Aiming;
+	}
+	else
+	{
+		return EFiringState::Locked;
 	}
 }

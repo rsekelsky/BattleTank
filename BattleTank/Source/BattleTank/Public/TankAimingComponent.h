@@ -20,13 +20,17 @@ public:
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
-	FVector GetProjectileSocketLocation();
-	FRotator GetProjectileSocketRotation();
+	FVector GetProjectileSocketLocation() const;
+	FRotator GetProjectileSocketRotation() const;
+
+	bool IsBarrelMoving() const;
 
 private:
 	UTankAimingComponent();
-
+	
 	void MoveBarrelTowards(FVector AimDirection);
+
+	FVector AimDirection;
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;

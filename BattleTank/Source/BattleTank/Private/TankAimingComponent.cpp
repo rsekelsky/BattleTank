@@ -43,7 +43,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	);
 	if (bHaveAimSolution)
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
 }
@@ -64,7 +64,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Turret->Rotate(DeltaRotator.Yaw);
 }
 
-FVector UTankAimingComponent::GetProjectileSocketLocation()
+FVector UTankAimingComponent::GetProjectileSocketLocation() const
 {
 	if (!ensure(Barrel))
 	{
@@ -73,11 +73,26 @@ FVector UTankAimingComponent::GetProjectileSocketLocation()
 	return Barrel->GetSocketLocation(FName("Projectile"));
 }
 
-FRotator UTankAimingComponent::GetProjectileSocketRotation()
+FRotator UTankAimingComponent::GetProjectileSocketRotation() const
 {
 	if (!ensure(Barrel))
 	{
 		return FRotator(0);
 	}
 	return Barrel->GetSocketRotation(FName("Projectile"));
+}
+
+bool UTankAimingComponent::IsBarrelMoving() const
+{
+	if (!ensure(Barrel))
+	{
+		return false;
+	}
+	
+	// Calculate difference between current barrel rotation and AimDirection
+	auto BarrelRotator = Barrel->GetComponentRotation();
+	auto AimDirectionRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimDirectionRotator - BarrelRotator;
+
+	return !DeltaRotator.IsNearlyZero(0.1f);
 }
