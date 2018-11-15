@@ -37,7 +37,7 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming)
 	{
 		if (!ensure(TankAimingComponent && ProjectileBlueprint))
 		{
@@ -51,8 +51,14 @@ void ATank::Fire()
 			);
 
 		Projectile->LaunchProjectile(LaunchSpeed);
+		Rounds--;
 		LastFireTime = FPlatformTime::Seconds();
 	}
+}
+
+int32 ATank::GetRoundsLeft() const
+{
+	return Rounds;
 }
 
 EFiringState ATank::GetFiringState() const
@@ -62,7 +68,11 @@ EFiringState ATank::GetFiringState() const
 
 EFiringState ATank::DetermineFiringState()
 {
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	if (Rounds == 0)
+	{
+		return EFiringState::OutOfAmmo;
+	}
+	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
 		return EFiringState::Reloading;
 	}

@@ -12,6 +12,7 @@ enum class EFiringState : uint8
 	Reloading,
 	Aiming,
 	Locked,
+	OutOfAmmo
 };
 
 class UTankAimingComponent;
@@ -25,8 +26,11 @@ class BATTLETANK_API ATank : public APawn
 public:
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int32 GetRoundsLeft() const;
 
 	EFiringState GetFiringState() const;
 
@@ -50,10 +54,13 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float LaunchSpeed = 4000;
+	float LaunchSpeed = 10000;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 4;
 
 	double LastFireTime;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 Rounds = 10;
 };
