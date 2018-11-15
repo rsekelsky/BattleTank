@@ -55,6 +55,11 @@ void ATank::Fire()
 	}
 }
 
+EFiringState ATank::GetFiringState() const
+{
+	return FiringState;
+}
+
 EFiringState ATank::DetermineFiringState()
 {
 	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)

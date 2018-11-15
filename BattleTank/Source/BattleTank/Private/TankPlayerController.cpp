@@ -16,6 +16,20 @@ void ATankPlayerController::BeginPlay()
 	FoundTank(GetControlledTank());
 }
 
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	if (!ensure(GetControlledTank()))
+	{
+		return;
+	}
+
+	FVector HitLocation;
+	if (GetSightRayHitLocation(HitLocation))
+	{
+		GetControlledTank()->AimAt(HitLocation);
+	}
+}
+
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -27,16 +41,18 @@ ATank* ATankPlayerController::GetControlledTank() const
 	return Cast<ATank>(GetPawn());
 }
 
-bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
+FVector2D ATankPlayerController::GetCrosshairScreenLocation() const
 {
-	// Find the crosshair position
 	int32 ViewportSizeX, ViewportSizeY;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
-	auto ScreenLocation = FVector2D(ViewportSizeX * CrosshairXLocation, ViewportSizeY * CrosshairYLocation);
+	return FVector2D(ViewportSizeX * CrosshairXLocation, ViewportSizeY * CrosshairYLocation);
+}
 
+bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
+{
 	// De-project the screen position of crosshair to a world direction
 	FVector LookDirection;
-	if (GetLookDirection(ScreenLocation, LookDirection))
+	if (GetLookDirection(GetCrosshairScreenLocation(), LookDirection))
 	{
 		// Linetrace along LookDirection and see what we hit (up to max range)
 		return GetLookVectorHitLocation(LookDirection, HitLocation);
@@ -75,18 +91,4 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	
 	HitLocation = FVector(0);
 	return false; // Line trace failed
-}
-
-void ATankPlayerController::AimTowardsCrosshair()
-{
-	if (!ensure(GetControlledTank()))
-	{
-		return;
-	}
-
-	FVector HitLocation;
-	if (GetSightRayHitLocation(HitLocation))
-	{
-		GetControlledTank()->AimAt(HitLocation);
-	}
 }

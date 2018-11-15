@@ -19,9 +19,14 @@ void ATankAIController::Tick(float DeltaTime)
 		// Move towards the player
 		MoveToActor(GetPlayerTank(), AcceptanceRadius);
 
-		// Aim/fire at player
+		// Aim at player
 		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
-		GetControlledTank()->Fire();
+
+		// Fire if locked
+		if (GetControlledTank()->GetFiringState() == EFiringState::Locked)
+		{
+			GetControlledTank()->Fire();
+		}
 	}
 }
 

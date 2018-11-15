@@ -30,6 +30,13 @@ private:
 	
 	virtual void Tick(float DeltaTime) override;
 
+	// Start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
+	void AimTowardsCrosshair();
+
+	// Get screen coordinates of crosshair
+	FVector2D GetCrosshairScreenLocation() const;
+
+	// TODO Redo HitLocation structure so aiming above max range behaves the same as aiming below min range
 	// Get world location of linetrace through crosshair
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 
@@ -38,9 +45,6 @@ private:
 
 	// Returns an out parameter for hit location, true if hits landscape
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
-
-	// Start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
-	void AimTowardsCrosshair();
 
 	// Crosshair X location on screen
 	UPROPERTY(EditDefaultsOnly)
