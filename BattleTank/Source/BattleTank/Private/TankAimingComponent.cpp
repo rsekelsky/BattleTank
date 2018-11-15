@@ -59,8 +59,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimDirectionRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimDirectionRotator - BarrelRotator;
 
-	Barrel->Elevate(DeltaRotator.Pitch);
-	Turret->Rotate(DeltaRotator.Yaw);
+	Barrel->Elevate(DeltaRotator.GetNormalized().Pitch);
+	Turret->Rotate(DeltaRotator.GetNormalized().Yaw);
 }
 
 FVector UTankAimingComponent::GetProjectileSocketLocation() const
