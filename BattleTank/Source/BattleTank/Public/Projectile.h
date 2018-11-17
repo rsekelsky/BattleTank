@@ -6,8 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "Projectile.generated.h"
 
-class UProjectileMovementComponent;
 class UParticleSystemComponent;
+class URadialForceComponent;
+class UProjectileMovementComponent;
 
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
@@ -25,6 +26,12 @@ private:
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
+	UFUNCTION()
+	void OnTimerExpire();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float DestroyDelay = 10;
+
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
@@ -33,6 +40,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent* ImpactBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	URadialForceComponent* ExplosionForce = nullptr;
 
 	UProjectileMovementComponent* MovementComponent = nullptr;
 };
