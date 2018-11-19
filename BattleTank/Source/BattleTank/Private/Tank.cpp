@@ -16,6 +16,9 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 
+	CurrentRounds = StartingRounds;
+	CurrentHealth = StartingHealth;
+
 	// Allow first fire after initial reload
 	LastFireTime = FPlatformTime::Seconds();
 }
@@ -51,14 +54,33 @@ void ATank::Fire()
 			);
 
 		Projectile->LaunchProjectile(LaunchSpeed);
-		Rounds--;
+		CurrentRounds--;
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }
 
-int32 ATank::GetRoundsLeft() const
+float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const &DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
-	return Rounds;
+	// Prevent comparing floats to zero
+	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
+	int32 DamageToApply = FMath::Clamp<int32>(DamagePoints, 0, CurrentHealth);
+
+	CurrentHealth -= DamageToApply;
+	if (CurrentHealth <= 0)
+	{
+		OnDeath.Broadcast();
+	}
+	return DamageToApply;
+}
+
+int32 ATank::GetCurrentRounds() const
+{
+	return CurrentRounds;
+}
+
+float ATank::GetCurrentHealthPercent() const
+{
+	return (float)CurrentHealth / (float)StartingHealth;
 }
 
 EFiringState ATank::GetFiringState() const
@@ -68,7 +90,7 @@ EFiringState ATank::GetFiringState() const
 
 EFiringState ATank::DetermineFiringState()
 {
-	if (Rounds == 0)
+	if (CurrentRounds == 0)
 	{
 		return EFiringState::OutOfAmmo;
 	}

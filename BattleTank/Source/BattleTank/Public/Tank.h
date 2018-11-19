@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
+
 UENUM()
 enum class EFiringState : uint8
 {
@@ -28,11 +30,18 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
+	
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const &DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int32 GetRoundsLeft() const;
+	UFUNCTION(BlueprintPure, Category = "Firing")
+	int32 GetCurrentRounds() const;
+
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetCurrentHealthPercent() const;
 
 	EFiringState GetFiringState() const;
+
+	FTankDelegate OnDeath;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Setup")
@@ -57,10 +66,19 @@ private:
 	float LaunchSpeed = 10000;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int32 Rounds = 10;
+	float ReloadTimeInSeconds = 4;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float ReloadTimeInSeconds = 4;
+	int32 StartingRounds = 10;
+
+	UPROPERTY(VisibleAnywhere, Category = "Firing")
+	int32 CurrentRounds;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	int32 StartingHealth = 100;
+
+	UPROPERTY(VisibleAnywhere, Category = "Health")
+	int32 CurrentHealth;
 
 	double LastFireTime;
 };

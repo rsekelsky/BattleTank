@@ -9,7 +9,7 @@
 class ATank;
 
 /**
- * 
+ * Responsible for controlling enemy tanks in the world.
  */
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
@@ -24,7 +24,13 @@ protected:
 private:
 	virtual void BeginPlay() override;
 
+	// To subscribe to ATank->OnDeath broadcast
+	virtual void SetPawn(APawn* Pawn) override;
+
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION()
+	void OnControlledTankDeath();
 
 	ATank* GetControlledTank() const;
 

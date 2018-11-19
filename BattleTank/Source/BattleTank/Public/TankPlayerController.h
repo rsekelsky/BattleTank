@@ -20,23 +20,27 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	ATank* GetControlledTank() const;
 
-	// TODO Determine if we can remove this function somehow
-	// Blueprint event to set tank reference for player UI
+	// Blueprint event to set tank reference for player UI, TODO Determine if we can remove this function somehow
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundTank(ATank* Tank);
 
 private:
 	virtual void BeginPlay() override;
+
+	// To subscribe to ATank->OnDeath broadcast
+	virtual void SetPawn(APawn* Pawn) override;
 	
 	virtual void Tick(float DeltaTime) override;
 
 	// Start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
 	void AimTowardsCrosshair();
 
+	UFUNCTION()
+	void OnControlledTankDeath();
+
 	// Get screen coordinates of crosshair
 	FVector2D GetCrosshairScreenLocation() const;
 
-	// TODO Redo HitLocation structure so aiming above max range behaves the same as aiming below min range
 	// Get world location of linetrace through crosshair
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 

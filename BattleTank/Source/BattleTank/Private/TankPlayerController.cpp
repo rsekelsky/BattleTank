@@ -16,9 +16,27 @@ void ATankPlayerController::BeginPlay()
 	FoundTank(GetControlledTank());
 }
 
+void ATankPlayerController::SetPawn(APawn* Pawn)
+{
+	Super::SetPawn(Pawn);
+
+	if (!Pawn)
+	{
+		return;
+	}
+	auto ControlledTank = Cast<ATank>(Pawn);
+	ControlledTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnControlledTankDeath);
+}
+
+void ATankPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	AimTowardsCrosshair();
+}
+
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ensure(GetControlledTank()))
+	if (!GetControlledTank())
 	{
 		return;
 	}
@@ -30,10 +48,9 @@ void ATankPlayerController::AimTowardsCrosshair()
 	}
 }
 
-void ATankPlayerController::Tick(float DeltaTime)
+void ATankPlayerController::OnControlledTankDeath()
 {
-	Super::Tick(DeltaTime);
-	AimTowardsCrosshair();
+	StartSpectatingOnly();
 }
 
 ATank* ATankPlayerController::GetControlledTank() const

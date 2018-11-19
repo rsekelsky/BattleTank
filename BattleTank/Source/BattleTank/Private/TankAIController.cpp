@@ -11,10 +11,22 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 }
 
+void ATankAIController::SetPawn(APawn* Pawn)
+{
+	Super::SetPawn(Pawn);
+
+	if (!Pawn)
+	{
+		return;
+	}
+	auto ControlledTank = Cast<ATank>(Pawn);
+	ControlledTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnControlledTankDeath);
+}
+
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (ensure(GetPlayerTank()))
+	if (GetPlayerTank())
 	{
 		// Move towards the player
 		MoveToActor(GetPlayerTank(), AcceptanceRadius);
@@ -28,6 +40,11 @@ void ATankAIController::Tick(float DeltaTime)
 			GetControlledTank()->Fire();
 		}
 	}
+}
+
+void ATankAIController::OnControlledTankDeath()
+{
+	GetControlledTank()->DetachFromControllerPendingDestroy();
 }
 
 ATank* ATankAIController::GetControlledTank() const
