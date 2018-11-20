@@ -91,5 +91,5 @@ bool UTankAimingComponent::IsBarrelMoving() const
 	// Calculate difference between current barrel orientation and AimDirection
 	auto BarrelForward = Barrel->GetForwardVector();
 	auto DeltaVector = BarrelForward - AimDirection;
-	return !DeltaVector.IsNearlyZero(0.1);
+	return !DeltaVector.IsNearlyZero(0.001);
 }
