@@ -90,22 +90,17 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 }
 
 bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
-{
-	// Debug line trace
-	const FName TraceTag("MyTraceTag");
-	GetWorld()->DebugDrawTraceTag = TraceTag;
-	FCollisionQueryParams CollisionParams;
-	CollisionParams.TraceTag = TraceTag;
-	
+{	
 	FHitResult HitResult;
+	FCollisionQueryParams CollisionParams;
 	auto StartLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
 	bool bHaveLineTrace = GetWorld()->LineTraceSingleByChannel(
 		HitResult,
 		StartLocation,
 		EndLocation,
-		ECollisionChannel::ECC_Camera
-		//,CollisionParams // Uncomment this for line trace
+		ECollisionChannel::ECC_Camera,
+		CollisionParams
 	);
 	if (bHaveLineTrace)
 	{
