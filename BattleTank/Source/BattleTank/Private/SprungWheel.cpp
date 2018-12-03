@@ -37,6 +37,11 @@ void ASprungWheel::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	Wheel->AddForce(Axle->GetForwardVector() * ForceMagnitude);
+}
+
 void ASprungWheel::SetupConstraints()
 {
 	if (!GetAttachParentActor())
@@ -50,6 +55,6 @@ void ASprungWheel::SetupConstraints()
 		return;
 	}
 
-	AxleConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Axle, NAME_None);
-	SuspensionConstraint->SetConstrainedComponents(Axle, NAME_None, Wheel, NAME_None);
+	SuspensionConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Axle, NAME_None);
+	AxleConstraint->SetConstrainedComponents(Axle, NAME_None, Wheel, NAME_None);
 }

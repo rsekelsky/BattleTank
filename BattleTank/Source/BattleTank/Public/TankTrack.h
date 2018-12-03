@@ -21,19 +21,11 @@ public:
 private:
 	UTankTrack();
 
-	virtual void BeginPlay() override;
+	void DriveTrack(float Throttle);
 
-	void DriveTrack();
-
-	// To stop tanks from slipping
-	void ApplySidewaysForce();
-
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	TArray<class ASprungWheel*> GetWheels() const;
 
 	// Max force per track in Newtons
 	UPROPERTY(EditDefaultsOnly)
 	float TrackMaxDrivingForce = 200000; // Assume 40 tonne tank, 0.5g acceleration
-
-	float CurrentThrottle = 0;
 };
