@@ -4,6 +4,7 @@
 #include "Public/Tank.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
+#include "Camera/PlayerCameraManager.h"
 // Depends on TankMovementComponent through overridden MoveToActor method
 
 void ATankAIController::BeginPlay()
@@ -34,7 +35,7 @@ void ATankAIController::Tick(float DeltaTime)
 		// Aim at player
 		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 
-		// Fire if locked
+		// Fire if locked and player is in sight
 		if (GetControlledTank()->GetFiringState() == EFiringState::Locked)
 		{
 			GetControlledTank()->Fire();

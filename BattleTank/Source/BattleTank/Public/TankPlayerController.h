@@ -58,7 +58,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float CrosshairYLocation = 0.33333;
 
-	// Linetrace range (max hit range)
+	// Linetrace range
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
 };
